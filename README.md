@@ -32,7 +32,7 @@ Criar seu .env
 
 ```
 cd service-b
-echo "WEATHER_API_KEY=83341080b0c04ea49a1140041250603" > .env
+echo "WEATHER_API_KEY=your-api-key" > .env
 cd ..
 
 ```
