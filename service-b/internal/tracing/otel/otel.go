@@ -6,7 +6,6 @@ import (
 	"log"
 
 	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/exporters/zipkin"
 	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
@@ -14,10 +13,11 @@ import (
 )
 
 func InitProvider(serviceName, zipkinURL string) (func(context.Context) error, error) {
-	exporter, err := zipkin.New(zipkinURL)
-	if err != nil {
-		return nil, fmt.Errorf("falha ao criar exportador Zipkin: %w", err)
-	}
+	exporter, err := otlptracegrpc.New(
+		context.Background(),
+		otlptracegrpc.WithInsecure(),                      // Sem TLS (para ambiente local)
+		otlptracegrpc.WithEndpoint("otel-collector:4317"), // Endpoint do Collector
+	)
 
 	res, err := resource.New(context.Background(),
 		resource.WithAttributes(
