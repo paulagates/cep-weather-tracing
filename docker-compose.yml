@@ -1,0 +1,45 @@
+services:
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    environment:
+      - STORAGE_TYPE=mem
+    restart: always
+
+  service-a:
+    build:
+      context: ./service-a/
+      dockerfile: Dockerfile
+    container_name: service-a
+    env_file:
+      - ./service-a/.env
+    volumes:
+      - ./.env:/app/.env
+    ports:
+      - "8080:8080"
+    environment:
+      - OTEL_SERVICE_NAME=servico-a
+      - OTEL_EXPORTER_ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+    depends_on:
+      - zipkin
+    restart: always
+
+  service-b:
+    build:
+      context: ./service-b/
+      dockerfile: Dockerfile
+    container_name: service-b
+    env_file:
+      - ./service-b/.env
+    volumes:
+      - ./.env:/app/.env
+    ports:
+      - "8081:8081"
+    environment:
+      - OTEL_SERVICE_NAME=servico-b
+      - OTEL_EXPORTER_ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+    depends_on:
+      - zipkin
+    restart: always
