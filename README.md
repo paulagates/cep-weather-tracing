@@ -1,13 +1,13 @@
 # 🌡️ Sistema de Temperatura por CEP com OpenTelemetry e Zipkin
-Este projeto consiste em dois microsserviços (Serviço A 🅰️ e Serviço B 🅱️) que trabalham em conjunto para fornecer informações de temperatura com base em um CEP fornecido, com instrumentação de observabilidade usando OpenTelemetry 📊 e Zipkin 🔍.
+Este projeto consiste em dois microsserviços (Serviço A e Serviço B ) que trabalham em conjunto para fornecer informações de temperatura com base em um CEP fornecido, com instrumentação de observabilidade usando OpenTelemetry 📊 e Zipkin 🔍.
 
 ## 🏗️ Visão Geral
-O sistema recebe um CEP via HTTP POST, valida-o e retorna as informações de temperatura (em Celsius ❄️, Fahrenheit 🌡️ e Kelvin 🔥) junto com o nome da cidade associada ao CEP.
+O sistema recebe um CEP via HTTP POST, valida-o e retorna as informações de temperatura (em Celsius, Fahrenheit e Kelvin) junto com o nome da cidade associada ao CEP.
 
 ## 🏛️ Arquitetura
-**Serviço A 🅰️:** Recebe e valida o CEP, encaminha para o Serviço B
+**Serviço 🅰️:** Recebe e valida o CEP, encaminha para o Serviço B
 
-**Serviço B 🅱️:** Consulta localização pelo CEP, obtém dados meteorológicos ⛅ e retorna formatado
+**Serviço 🅱️:** Consulta localização pelo CEP, obtém dados meteorológicos e retorna formatado
 
 **OpenTelemetry 📊 + Zipkin 🔍:** Instrumentação para tracing distribuído
 
@@ -34,7 +34,7 @@ docker-compose up --d
 
 ### Os serviços estarão disponíveis em:
 
-Serviço A 🅰️: http://localhost:8080
+Serviço 🅰️: http://localhost:8080
 
 Zipkin UI 🔍: http://localhost:9411
 
