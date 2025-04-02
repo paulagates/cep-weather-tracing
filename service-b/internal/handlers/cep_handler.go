@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"regexp"
 
-	"github.com/paulagates/cep-weather-tracing/service-b/clients"
-	"github.com/paulagates/cep-weather-tracing/service-b/utils"
+	"github.com/paulagates/cep-weather-tracing/service-b/internal/services"
+	"github.com/paulagates/cep-weather-tracing/service-b/internal/utils"
 )
 
 type Response struct {
@@ -34,13 +35,22 @@ func HandleCEP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	city, err := clients.GetCityFromCEP(cep)
+	isValidCEP := func(cep string) bool {
+		match, _ := regexp.MatchString(`^\d{8}$`, cep)
+		return match
+	}
+
+	if !isValidCEP(cep) {
+		http.Error(w, "invalid zipcode", http.StatusUnprocessableEntity)
+		return
+	}
+	city, err := services.GetCityFromCEP(cep)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
-	temp, err := clients.GetTemperatureFromCity(city)
+	temp, err := services.GetTemperatureFromCity(city)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "Failed to get temperature", http.StatusInternalServerError)

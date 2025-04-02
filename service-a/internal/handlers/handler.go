@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"regexp"
 
-	"github.com/paulagates/cep-weather-tracing/service-a/clients"
+	"github.com/paulagates/cep-weather-tracing/service-a/internal/services"
 )
 
 type Response struct {
@@ -21,21 +21,24 @@ func HandleCEP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
-	var reqBody clients.RequestBody
+
+	var reqBody services.RequestBody
 	if err := json.NewDecoder(r.Body).Decode(&reqBody); err != nil {
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
 		return
 	}
+
 	isValidCEP := func(cep string) bool {
 		match, _ := regexp.MatchString(`^\d{8}$`, cep)
 		return match
 	}
+
 	if !isValidCEP(reqBody.CEP) {
 		http.Error(w, "invalid zipcode", http.StatusUnprocessableEntity)
 		return
 	}
 
-	res, err := clients.ForwardToServiceB(reqBody)
+	res, err := services.ForwardToServiceB(reqBody)
 	if err != nil {
 		http.Error(w, "Failed to forward to Service B", http.StatusInternalServerError)
 		return
