@@ -30,6 +30,12 @@ cd cep-weather-tracing
 
 Criar seu .env
 
+```
+cd service-b
+echo "WEATHER_API_KEY=83341080b0c04ea49a1140041250603" > .env
+cd ..
+
+```
 ### Execute os serviços com Docker Compose:
 
 ```
@@ -85,6 +91,9 @@ Clique em "Run Query" para ver os traces
 ## ⚙️ Variáveis de Ambiente
 
 WEATHER_API_KEY= Chave da API WeatherAPI ⛅
+
 OTEL_SERVICE_NAME= Nome do Serviço
+
 OTEL_EXPORTER_ZIPKIN_ENDPOINT= Endpoint do Zipkin 🔍 (http://zipkin:9411/api/v2/spans)
+
 
