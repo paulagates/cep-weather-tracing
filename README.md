@@ -23,11 +23,13 @@ O sistema recebe um CEP via HTTP POST, valida-o e retorna as informações de te
 ```
 git clone https://github.com/paulagates/cep-weather-tracing.git
 cd cep-weather-tracing
+
 ```
 ### Execute os serviços com Docker Compose:
 
 ```
 docker-compose up --d
+
 ```
 
 ### Os serviços estarão disponíveis em:
@@ -79,5 +81,5 @@ Clique em "Run Query" para ver os traces
 
 WEATHER_API_KEY= Chave da API WeatherAPI ⛅
 OTEL_SERVICE_NAME= Nome do Serviço
-OTEL_EXPORTER_ZIPKIN_ENDPOINT= Endpoint do Zipkin 🔍	http://zipkin:9411/api/v2/spans
+OTEL_EXPORTER_ZIPKIN_ENDPOINT= Endpoint do Zipkin 🔍 (http://zipkin:9411/api/v2/spans)
 
