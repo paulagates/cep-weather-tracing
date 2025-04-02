@@ -4,9 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+	"os"
 )
-
-const serviceBURL = "http://localhost:8081/cep"
 
 type RequestBody struct {
 	CEP string `json:"cep"`
@@ -18,7 +17,7 @@ func ForwardToServiceB(reqBody RequestBody) (*http.Response, error) {
 		return nil, err
 	}
 
-	resp, err := http.Post(serviceBURL, "application/json", bytes.NewBuffer(jsonData))
+	resp, err := http.Post(os.Getenv("SERVICE_B_URL"), "application/json", bytes.NewBuffer(jsonData))
 	if err != nil {
 		return nil, err
 	}

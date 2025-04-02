@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 	"regexp"
 
@@ -24,6 +25,7 @@ func HandleCEP(w http.ResponseWriter, r *http.Request) {
 
 	var reqBody services.RequestBody
 	if err := json.NewDecoder(r.Body).Decode(&reqBody); err != nil {
+		log.Println("Invalid request body:", err)
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
 		return
 	}
@@ -40,12 +42,14 @@ func HandleCEP(w http.ResponseWriter, r *http.Request) {
 
 	res, err := services.ForwardToServiceB(reqBody)
 	if err != nil {
+		log.Println("Failed to forward to Service B: ", err)
 		http.Error(w, "Failed to forward to Service B", http.StatusInternalServerError)
 		return
 	}
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
+		log.Println("Failed to read response body: ", err)
 		http.Error(w, "Failed to read response body", http.StatusInternalServerError)
 		return
 	}

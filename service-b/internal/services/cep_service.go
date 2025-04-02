@@ -1,8 +1,10 @@
 package services
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 )
@@ -15,7 +17,13 @@ type City struct {
 }
 
 func GetCityFromCEP(cep string) (string, error) {
-	resp, err := http.Get("https://viacep.com.br/ws/" + cep + "/json/")
+	url := fmt.Sprintf("https://viacep.com.br/ws/%s/json/", cep)
+	client := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		},
+	}
+	resp, err := client.Get(url)
 	if err != nil {
 		return "", err
 	}

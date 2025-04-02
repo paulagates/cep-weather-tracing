@@ -18,6 +18,7 @@ services:
     environment:
       - OTEL_SERVICE_NAME=servico-a
       - OTEL_EXPORTER_ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+      - SERVICE_B_URL=http://service-b:8081/cep
     depends_on:
       - zipkin
     restart: always

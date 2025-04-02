@@ -2,16 +2,16 @@ FROM golang:1.23.2 as builder
 
 WORKDIR /app
 
-COPY ./ ./
+COPY . .
 
-RUN env CGO_ENABLED=0 && go mod tidy && go build -o service-b cmd/main.go
+RUN CGO_ENABLED=0 go build -ldflags='-w -s' -o /service-b cmd/main.go
 
 FROM scratch
 
 WORKDIR /
 
-COPY --from=builder /app/service-b ./
+COPY --from=builder /service-b /service-b
 
 EXPOSE 8081
 
-CMD ["./service-b"]
+CMD ["/service-b"]

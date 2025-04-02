@@ -25,6 +25,7 @@ func HandleCEP(w http.ResponseWriter, r *http.Request) {
 
 	var reqBody map[string]string
 	if err := json.NewDecoder(r.Body).Decode(&reqBody); err != nil {
+		log.Println("Invalid request body:", err)
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
 		return
 	}
@@ -46,13 +47,14 @@ func HandleCEP(w http.ResponseWriter, r *http.Request) {
 	}
 	city, err := services.GetCityFromCEP(cep)
 	if err != nil {
+		log.Println(err)
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
 	temp, err := services.GetTemperatureFromCity(city)
 	if err != nil {
-		log.Println(err)
+		log.Println("Failed to get temperature: ", err)
 		http.Error(w, "Failed to get temperature", http.StatusInternalServerError)
 		return
 	}
