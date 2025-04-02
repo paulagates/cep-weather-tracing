@@ -25,6 +25,11 @@ git clone https://github.com/paulagates/cep-weather-tracing.git
 cd cep-weather-tracing
 
 ```
+
+### Execute os serviços com Docker Compose:
+
+Criar seu .env
+
 ### Execute os serviços com Docker Compose:
 
 ```
