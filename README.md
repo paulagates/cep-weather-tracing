@@ -39,7 +39,7 @@ cd ..
 ### Execute os serviços com Docker Compose:
 
 ```
-docker-compose up --d
+docker-compose up -d
 
 ```
 
